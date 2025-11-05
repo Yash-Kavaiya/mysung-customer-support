@@ -163,14 +163,17 @@ pip install -r requirements.txt
 
 ### Setup Instructions
 
-1. **Edit the agent.py file:**
+1. **Edit the agent.py file to add missing configuration:**
 
 ```python
 # adk-backend/agent.py
-DATASTORE_PATH = "your-datastore-id-here"
-AGENT_NAME_VSEARCH = "your-agent-name"
-GEMINI_2_FLASH = "gemini-2.0-flash-exp"
+# Add these lines at the top after imports
+DATASTORE_PATH = "your-datastore-id-here"  # Already exists
+AGENT_NAME_VSEARCH = "MySungSupportAgent"   # Add this line
+GEMINI_2_FLASH = "gemini-2.0-flash-exp"     # Add this line
 ```
+
+**Note**: The current `agent.py` file references `AGENT_NAME_VSEARCH` and `GEMINI_2_FLASH` variables that need to be defined. Make sure to add these before the `doc_qa_agent` definition.
 
 2. **Set up Google Cloud credentials:**
 
@@ -183,21 +186,24 @@ export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/service-account-key.json"
 
 ```bash
 cd adk-backend
-python -c "import agent; print('Configuration loaded successfully!')"
+python -c "print('Ready to configure agent.py - please add the missing variables!')"
 ```
 
+**Important**: Before running the agent, ensure all three configuration variables are defined in `agent.py`.
+
 ## 💻 Usage
+
+**Prerequisites**: Ensure you have added the required configuration variables (`AGENT_NAME_VSEARCH` and `GEMINI_2_FLASH`) to `agent.py` as described in the Configuration section.
 
 ### Basic Usage
 
 ```python
-# Navigate to the adk-backend directory
-cd adk-backend
+# Navigate to the adk-backend directory first
+# cd adk-backend
 
-# Run your Python script
 import agent
 
-# The root agent is ready to use
+# The root agent is ready to use (after configuration is complete)
 response = agent.root_agent.query("How do I reset my password?")
 print(response)
 ```
@@ -207,13 +213,14 @@ print(response)
 ```python
 # From the adk-backend directory
 from google.adk.agents import LlmAgent
-from agent import vertex_search_tool
+import agent
 
+# Use the configured search tool
 # Customize the agent
 custom_agent = LlmAgent(
     name="CustomSupportAgent",
     model="gemini-2.0-flash-exp",
-    tools=[vertex_search_tool],
+    tools=[agent.vertex_search_tool],
     instruction="Your custom instructions here..."
 )
 
