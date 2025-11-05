@@ -182,7 +182,8 @@ export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/service-account-key.json"
 3. **Verify configuration:**
 
 ```bash
-python -c "from adk_backend import agent; print('Configuration loaded successfully!')"
+cd adk-backend
+python -c "import agent; print('Configuration loaded successfully!')"
 ```
 
 ## 💻 Usage
@@ -190,7 +191,11 @@ python -c "from adk_backend import agent; print('Configuration loaded successful
 ### Basic Usage
 
 ```python
-from adk_backend import agent
+# Navigate to the adk-backend directory
+cd adk-backend
+
+# Run your Python script
+import agent
 
 # The root agent is ready to use
 response = agent.root_agent.query("How do I reset my password?")
@@ -200,8 +205,9 @@ print(response)
 ### Advanced Usage
 
 ```python
+# From the adk-backend directory
 from google.adk.agents import LlmAgent
-from adk_backend.agent import vertex_search_tool
+from agent import vertex_search_tool
 
 # Customize the agent
 custom_agent = LlmAgent(
